@@ -104,12 +104,13 @@ Banner clears (caller hung up)
 
 ## Caveats and known limits
 
-- **Continuity is flaky.** Calls-on-other-devices toggles drop off after iOS updates. If the Mac stops ringing, check the iPhone Phone settings.
-- **Same-room echo.** If the calling phone is near the Mac, its mic picks up the Mac speakers (Phone.app outputs a "monitor" feed there in addition to your selected output device). Mute system volume when testing.
-- **Phone.app's mic selection is per-call, not sticky.** Hammerspoon clicks "BlackHole 2ch" every time auto-answer fires. If a future macOS update changes that menu structure, the click will silently fail — you'd hear the agent's TTS through your Mac speakers and the caller would hear silence.
-- **Half-duplex, sentence-grained.** The barge-in detector fires after 200 ms of sustained caller voice. Sub-200ms interjections are missed.
-- **No outbound dialing yet.** This branch only handles inbound.
+- **macOS Phone.app fragility.** Call detection works by walking the Notification Center accessibility tree for the `FACETIME_NOTIFICATION` banner. Apple has changed this hierarchy on every macOS major version. After an OS upgrade, re-dump with `⌥⌃⌘+A` and update `call_handler.lua` if the path moved.
+- **Continuity drops out.** "Calls on Other Devices" toggles sometimes turn themselves off after iOS updates. If the Mac stops ringing for a call your iPhone is taking, that's the first place to check.
+- **Same-room echo.** Phone.app plays cellular call audio through the Mac's built-in speakers as a "monitor" feed *in addition to* whatever system output you've selected. If the phone you're calling from is near the Mac, its mic picks that up. Mute system volume — or test from another room — to eliminate it.
+- **Barge-in threshold is 200 ms of sustained voice.** Intentional: lower thresholds caused false interrupts from line noise and brief cellular pops. Side effect — short interjections like "uh-huh" / "right" won't interrupt the agent.
+- **STT artifacts on very short utterances.** Parakeet occasionally hallucinates words when the caller's audio is <1 s or particularly quiet (cellular tends to peak around –30 dBFS even after the +8 input-side gain). The agent handles it gracefully by asking for clarification, but a future pass should swap in a larger model or run a confidence filter.
+- **No outbound dialing.** Inbound only for now.
 
 ## License
 
-MIT — see `LICENSE` (add your own if you want).
+MIT — see `LICENSE`.
