@@ -1,0 +1,16 @@
+# Phone-agent prototype runtime dependencies.
+# Direct deps only; pip will resolve the transitive closure.
+
+anthropic==0.104.1
+python-dotenv==1.2.2
+
+# TTS
+kokoro-onnx==0.5.0
+
+# STT (Apple Silicon)
+parakeet-mlx==0.5.1
+
+# Audio I/O
+sounddevice==0.5.5
+soundfile==0.13.1
+numpy==2.4.6

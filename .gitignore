@@ -1,0 +1,35 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+build/
+dist/
+
+# Models — too large to commit; fetched via scripts/download_models.sh
+models/
+
+# Runtime artifacts — captured per machine / per call
+logs/
+transcripts/
+audio/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Hammerspoon plugin dir (created by Hammerspoon, not project code)
+hammerspoon/Spoons/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
